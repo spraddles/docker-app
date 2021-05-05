@@ -2,11 +2,16 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Docker exmaple app to experiment with containers",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index"
+    "serve": "node index.js",
+    "db:migrate": "knex migrate:latest",
+    "db:rollback": "knex migrate:rollback",
+    "db:seed": "knex seed:run"
   },
   "dependencies": {
-    "knex": "^0.95.4"
+    "express": "^4.17.1",
+    "knex": "^0.95.4",
+    "pg": "^8.6.0"
   }
 }
