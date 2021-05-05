@@ -1,0 +1,30 @@
+# optional
+version: "1.0"
+
+services:
+
+    application:
+        build:
+            context: . # build in current DIR
+            dockerfile: ./dockerfile.dev
+        ports:
+            - "8000:8000"
+        volumes:
+            - abc # ???
+
+    database:
+        image: postgres:12.6
+        build:
+            context: . # build in current DIR
+            dockerfile: src/Services/Basket/Basket.API/Dockerfile
+        ports:
+            - "5432:5432"
+            volumes:
+                - def # ???
+
+volumes:
+    abc: {}
+    def: {}
+
+
+# Network: don't need to define this, as the above are 2 containers within 1 compose file, so they are automatically linked
