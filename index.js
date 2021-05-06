@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const knexfile = require("./knexfile");
 const knex = require("knex")(knexfile);
-const port = 3000;
+const port = 8000;
 
 // add in parser for better body & error handling (for API's)
 const bodyParser = require('body-parser');
