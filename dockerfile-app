@@ -1,0 +1,21 @@
+# Base image
+FROM ubuntu:16.04
+
+# System updates
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt -y install -y software-properties-common curl
+
+# Install Nodejs
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && apt install -y nodejs
+
+# Copy bash file for post-build tasks
+WORKDIR /docker-app
+COPY /docker-app.sh .
+
+# Install Node packages
+COPY /package.json .
+RUN echo $PWD
+RUN npm install
+
+# Runs post-build commands
+CMD ["sh", "./docker-app.sh"]

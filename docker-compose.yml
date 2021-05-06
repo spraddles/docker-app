@@ -1,30 +1,38 @@
-# optional
-version: "1.0"
-
 services:
 
+    # container 1
     application:
-        build:
-            context: . # build in current DIR
-            dockerfile: ./dockerfile.dev
         ports:
             - "8000:8000"
-        volumes:
-            - abc # ???
-
-    database:
-        image: postgres:12.6
         build:
-            context: . # build in current DIR
-            dockerfile: src/Services/Basket/Basket.API/Dockerfile
+            # '.' means biuild in current DIR
+            context: .
+            dockerfile: ./dockerfile-app
+        # mount volume
+        volumes:
+            - .:/docker-app
+        # requires database to be setup first before app runs
+        depends_on:
+            database:
+                condition: service_healthy
+
+    # container 2
+    database:
+        image:
+            postgres:12.6
         ports:
             - "5432:5432"
-            volumes:
-                - def # ???
-
-volumes:
-    abc: {}
-    def: {}
-
-
-# Network: don't need to define this, as the above are 2 containers within 1 compose file, so they are automatically linked
+        # check that DB is ready
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        # run scripts
+        #command: [ "./docker-db.sh", "db" ]
+        # environment variables
+        environment:
+            POSTGRES_DB: "postgres"
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            #POSTGRES_HOST_AUTH_METHOD: "trust"
