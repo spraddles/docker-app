@@ -1,3 +1,5 @@
+version: "3.3"
+
 services:
 
     # container 1
@@ -14,7 +16,12 @@ services:
         # requires database to be setup first before app runs
         depends_on:
             database:
+                # relies on 'healthcheck' below
                 condition: service_healthy
+        # Docker recommends that you use restart policies
+        # ref: https://docs.docker.com/config/containers/start-containers-automatically/
+        restart: 
+            always
 
     # container 2
     database:
@@ -22,6 +29,8 @@ services:
             postgres:12.6
         ports:
             - "5432:5432"
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
         # check that DB is ready
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -36,3 +45,9 @@ services:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
             #POSTGRES_HOST_AUTH_METHOD: "trust"
+        restart:
+            always
+
+# below applies to all services / containers
+volumes:
+    postgres-data:

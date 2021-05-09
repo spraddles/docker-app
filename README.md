@@ -3,6 +3,9 @@ Docker exmaple app to experiment with containers
 
 
 
+LOCAL DEV:
+Accessing http://localhost:3000/ping returns 'pong' showing app connection
+
 
 
 
@@ -27,9 +30,9 @@ Goals / requirements:
 
 
 Future tasks / wishlist:  
-- dev & prod Composer files, via .ENV file variables
-- Composer (dev) needs local file access to update code files on the fly
-- Composer (prod) needs to be mounted with it's own file state
+- dev & prod Composer files, via .ENV file variables:
+- - Composer (dev) needs local file access to update code files on the fly
+- - Composer (prod) needs to be mounted with it's own file state
 - container clusters (Docker Swarm / Kubernetes)  
 - Docker Swarm / Kubernetes: auto-scaling  
 - 
