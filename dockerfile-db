@@ -1,9 +1,0 @@
-# Base image
-FROM postgres:12.6
-
-# Copy bash file for post-build tasks
-WORKDIR /docker-db
-COPY /docker-db.sh .
-
-# Runs post-build commands
-CMD ["sh", "./docker-db.sh"]
