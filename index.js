@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const knexfile = require("./knexfile");
 const knex = require("knex")(knexfile);
-const port = 8000;
+const port = process.env.NODE_PORT;
 
 // add in parser for better body & error handling (for API's)
 const bodyParser = require('body-parser');
@@ -22,7 +22,7 @@ async (req, res) => {
             res.json(rows);
         })
         .catch((err) => {
-            res.status(500).json({message: "Error getting data", error: err})
+            res.status(500).json({message: "Error getting data", Details: err})
         });
 });
 

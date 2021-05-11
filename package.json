@@ -4,12 +4,15 @@
   "description": "Docker exmaple app to experiment with containers",
   "main": "index.js",
   "scripts": {
-    "serve": "node index.js",
+    "serve_dev": "NODE_ENV=development node -r dotenv/config index.js dotenv_config_path=./.env-dev",
+    "serve_prod": "NODE_ENV=production node -r dotenv/config index.js dotenv_config_path=./.env-prod --only=prod",
     "db:migrate": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run"
   },
   "dependencies": {
+    "dotenv-cli": "^4.0.0",
+    "dotenv": "^9.0.1",
     "express": "^4.17.1",
     "knex": "^0.95.4",
     "pg": "^8.6.0"

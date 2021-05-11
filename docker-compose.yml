@@ -2,15 +2,23 @@ version: "3.3"
 
 services:
 
-    # container 1
+    # # # # # # # # #
+    #  Container 1  #
+    # # # # # # # # #
+
+    # name of domain (i.e. 'http://application')
     application:
+        # name of the container
+        # important for redeploying same container so Docker doesn't auto create a dynamic container name
+        container_name:
+            "my-application"
         ports:
-            - "8000:8000"
+            - "${DOCKER_APP_PORTS}"
         build:
             # '.' means biuild in current DIR
             context: .
             dockerfile: ./dockerfile-app
-        # mount volume
+        # mounting volume makes this persistant
         volumes:
             - .:/docker-app
         # requires database to be setup first before app runs
@@ -20,11 +28,20 @@ services:
                 condition: service_healthy
         # Docker recommends that you use restart policies
         # ref: https://docs.docker.com/config/containers/start-containers-automatically/
+        # environment variables
+        environment:
+            NODE_APP_ENV: "${NODE_APP_ENV}"
+            DOCKER_APP_PORTS: "${DOCKER_APP_PORTS}"
         restart: 
             always
 
-    # container 2
+    # # # # # # # # #
+    #  Container 2  #
+    # # # # # # # # #
+
     database:
+        container_name:
+            "my-database"
         image:
             postgres:12.6
         ports:
@@ -37,13 +54,10 @@ services:
             interval: 5s
             timeout: 5s
             retries: 5
-        # run scripts
-        #command: [ "./docker-db.sh", "db" ]
-        # environment variables
         environment:
-            POSTGRES_DB: "postgres"
-            POSTGRES_USER: "postgres"
-            POSTGRES_PASSWORD: "postgres"
+            POSTGRES_DB: "${DB_NAME}"
+            POSTGRES_USER: "${DB_USER}"
+            POSTGRES_PASSWORD: "${DB_PASSWORD}"
             #POSTGRES_HOST_AUTH_METHOD: "trust"
         restart:
             always

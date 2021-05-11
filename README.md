@@ -9,21 +9,25 @@ Docker exmaple app to experiment with containers orchestration via Docker Compos
 - [done] demonstrate that the application & the database are connected, via an API call that returns something from the databasae
 
 
-## Tests:  
-Accessing http://localhost:3000/ping returns 'pong' showing app connection  
-Accessing http://localhost:3000/data returns JSON object from database  
-
-
 ## Docker commands:
+1. DEV: docker-compose --env-file ./.env-dev up
+2. PROD: docker-compose --env-file ./.env-prod up
 
-1. Go to DIR of app. 
-2. run 'docker-compose up'.
+
+## Tests:  
+1. Dev test:  
+Accessing http://localhost:7999/ping returns 'pong' showing app connection  
+Accessing http://localhost:7999/data returns JSON object from database
+
+2. Prod test:  
+Accessing http://localhost:8111/ping returns 'pong' showing app connection  
+Accessing http://localhost:8111/data returns JSON object from database
 
 
 ## Future tasks / wishlist:  
-- dev & prod Composer files, via .ENV file variables:
-- - Composer (dev) needs local file access to update code files on the fly
-- - Composer (prod) needs to be mounted with it's own file state (independent of local)
+- [done] dev & prod Composer files, via .ENV file variables:
+- dev .ENV: Composer needs local file access to update code files on the fly
+- prod .ENV: Composer needs to be mounted with it's own file state (independent of local)
 - container clusters (Docker Swarm / Kubernetes)  
 - Docker Swarm / Kubernetes: auto-scaling  
 - 
